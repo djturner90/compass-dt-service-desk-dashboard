@@ -21,7 +21,7 @@
         </div>
         <div class="login-copy">
           <p class="eyebrow">Secure demonstration portal</p>
-          <h1 id="loginTitle">Welcome to the<br>Compass live estate</h1>
+          <h1 id="loginTitle">Welcome to<br>Compass UK&amp;I</h1>
           <p>One connected view of service performance, Time2Eat technology and the Compass digital universe.</p>
         </div>
         <form class="login-form" id="loginForm" novalidate>
@@ -628,6 +628,10 @@
             <div class="canvas-axis" aria-hidden="true"><i class="axis-x"></i><i class="axis-y"></i><i class="axis-z"></i><span>X</span><span>Y</span><span>Z</span></div>
             <div class="canvas-help"><span>Drag to rotate</span><i></i><span>Scroll to zoom</span><i></i><span>Select to inspect</span></div>
             <div class="zoom-readout" id="godZoomReadout">100%</div>
+            <aside class="god-expanded-inspector" id="godExpandedInspector" aria-label="Selected node details" aria-live="polite" hidden>
+              <header><div><p class="eyebrow">Node intelligence</p><strong>Selected entity</strong></div><button type="button" id="godExpandedInspectorClose" aria-label="Close node details"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></header>
+              <div class="god-expanded-inspector-body" id="godExpandedInspectorBody"></div>
+            </aside>
           </div>
 
           <footer class="universe-legend" aria-label="Entity and health legend">

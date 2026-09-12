@@ -214,7 +214,7 @@ function escapeHtml(value) {
 
 const demoAccess = {
   username: "jarvis",
-  passwordHash: "caabe118bbd7cb8e1d5ae197684e3f2fc5b2037f56aa1a67847d4aef7501f47b",
+  passwordHash: "57aaefa3f13fcbdf27b6a06b21a9383bba4d03c6c2d1074c806513b8c8dd1fb0",
   sessionKey: "compass-demo-access"
 };
 
@@ -1416,6 +1416,7 @@ function renderGodInspector(node = null) {
       <div class="entity-section"><h4>Central functions</h4><div class="god-directory compact">${functions.map(item => `<button type="button" data-god-focus-id="${item.id}"><i style="--node-color:${item.color}"></i>${escapeHtml(item.label)}</button>`).join("")}</div></div>
       <div class="inspector-tip">Choose a sector or function here, or select any molecule. Its direct relationships become your next drill-down choices.</div>
     </div>`;
+    renderGodExpandedInspector();
     return;
   }
 
@@ -1462,6 +1463,22 @@ function renderGodInspector(node = null) {
     <div class="entity-section"><h4>Continue through direct relationships</h4><div class="dependency-list">${dependencies.map(item => `<button type="button" data-god-focus-id="${item.id}">${escapeHtml(item.label)}</button>`).join("")}</div></div>
     <div class="inspector-tip">Choose a relationship to move deeper through the hierarchy. Highlighted lines show every direct dependency for this entity.</div>
   </div>`;
+  renderGodExpandedInspector(node);
+}
+
+function renderGodExpandedInspector(node = null) {
+  const panel = $("#godExpandedInspector");
+  const body = $("#godExpandedInspectorBody");
+  if (!node) {
+    panel.hidden = true;
+    body.innerHTML = "";
+    return;
+  }
+  const source = $("#godInspector .inspector-entity");
+  if (!source) return;
+  panel.querySelector("header strong").textContent = $("#godSelectionType").textContent;
+  body.innerHTML = source.innerHTML;
+  panel.hidden = false;
 }
 
 function focusGodNode(nodeId, orient = true) {
@@ -1635,6 +1652,11 @@ function initGodView() {
     const target = event.target.closest("[data-god-focus-id]");
     if (target) focusGodNode(target.dataset.godFocusId);
   });
+  $("#godExpandedInspector").addEventListener("click", event => {
+    const target = event.target.closest("[data-god-focus-id]");
+    if (target) focusGodNode(target.dataset.godFocusId);
+  });
+  $("#godExpandedInspectorClose").addEventListener("click", () => { $("#godExpandedInspector").hidden = true; });
   requestAnimationFrame(drawGodView);
 }
 

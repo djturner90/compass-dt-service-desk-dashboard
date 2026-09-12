@@ -837,6 +837,20 @@ tbody tr.new-row { animation: rowFlash 1.8s ease; }
 .universe-panel:fullscreen .god-hierarchy-band, .universe-panel.is-immersive .god-hierarchy-band { flex: 0 0 auto; margin-top: 4px; }
 .universe-panel:fullscreen .universe-canvas-wrap, .universe-panel.is-immersive .universe-canvas-wrap { height: auto; min-height: 0; flex: 1 1 auto; }
 .universe-panel:fullscreen .universe-legend, .universe-panel.is-immersive .universe-legend { flex: 0 0 38px; }
+.god-expanded-inspector { display: none; }
+.universe-panel:fullscreen .god-expanded-inspector:not([hidden]), .universe-panel.is-immersive .god-expanded-inspector:not([hidden]) { width: min(390px, calc(100% - 32px)); position: absolute; z-index: 12; top: 16px; right: 16px; bottom: 16px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(121,203,229,.25); border-radius: 12px; background: rgba(7,29,43,.94); box-shadow: 0 24px 65px rgba(0,0,0,.48), inset 0 1px rgba(255,255,255,.035); backdrop-filter: blur(18px); animation: expandedInspectorIn .22s ease; }
+@keyframes expandedInspectorIn { from { opacity: 0; transform: translateX(12px); } }
+.god-expanded-inspector > header { min-height: 61px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 14px; border-bottom: 1px solid rgba(164,203,226,.12); background: rgba(12,42,58,.72); }
+.god-expanded-inspector > header .eyebrow { margin-bottom: 3px; font-size: 8px; }
+.god-expanded-inspector > header strong { color: #d5e8f1; font-family: "Space Grotesk", sans-serif; font-size: 12px; }
+.god-expanded-inspector > header button { width: 31px; height: 31px; flex: 0 0 auto; display: grid; place-items: center; border: 1px solid rgba(164,203,226,.15); border-radius: 7px; background: rgba(255,255,255,.035); color: #88a9ba; cursor: pointer; }
+.god-expanded-inspector > header button:hover { color: white; border-color: rgba(93,180,255,.38); background: rgba(57,148,242,.12); }
+.god-expanded-inspector > header svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; }
+.god-expanded-inspector-body { padding: 16px 15px 18px; flex: 1; overflow-y: auto; scrollbar-color: rgba(93,180,255,.3) transparent; scrollbar-width: thin; }
+.god-expanded-inspector .entity-heading h3 { font-size: 20px; }
+.god-expanded-inspector .entity-heading p { max-width: 245px; line-height: 1.5; }
+.god-expanded-inspector .entity-facts > div { min-height: 55px; }
+.god-expanded-inspector .dependency-list { max-height: 150px; overflow-y: auto; padding-right: 2px; }
 .god-events { padding-top: 14px; border-top: 1px solid var(--line); }
 .god-events header { margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
 .god-events h3 { margin: 0; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
