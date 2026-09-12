@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071723">
+  <title>Compass D&amp;T Service Desk Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="login-locked">
+  <div class="login-screen" id="loginScreen">
+    <div class="login-grid" aria-hidden="true"></div>
+    <section class="login-shell" aria-labelledby="loginTitle">
+      <div class="login-panel">
+        <div class="login-brand">
+          <img src="assets/compass-digital-logo.png" alt="Compass Digital and Technology UK and Ireland">
+          <div><span>Compass Digital &amp; Technology</span><strong>Operations intelligence</strong></div>
+        </div>
+        <div class="login-copy">
+          <p class="eyebrow">Secure demonstration portal</p>
+          <h1 id="loginTitle">Welcome to the<br>Compass live estate</h1>
+          <p>One connected view of service performance, Time2Eat technology and the Compass digital universe.</p>
+        </div>
+        <form class="login-form" id="loginForm" novalidate>
+          <label for="loginUsername">Username</label>
+          <div class="login-field">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg>
+            <input id="loginUsername" name="username" type="text" autocomplete="username" spellcheck="false" required>
+          </div>
+          <label for="loginPassword">Password</label>
+          <div class="login-field">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg>
+            <input id="loginPassword" name="password" type="password" autocomplete="current-password" required>
+          </div>
+          <p class="login-error" id="loginError" role="alert" aria-live="polite"></p>
+          <button class="login-submit" type="submit"><span>Enter live dashboard</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5"/></svg></button>
+        </form>
+        <footer class="login-foot"><span><i></i>Protected demo environment</span><small>Illustrative data · Compass UK&amp;I</small></footer>
+      </div>
+
+      <aside class="login-visual" aria-label="Live Compass estate preview">
+        <div class="login-visual-head"><span>Live enterprise fabric</span><strong><i></i>All systems connected</strong></div>
+        <div class="login-orbit" aria-hidden="true">
+          <div class="login-core"><span>C</span><small>Compass<br>Digital Core</small></div>
+          <i class="orbit-ring ring-one"></i><i class="orbit-ring ring-two"></i><i class="orbit-ring ring-three"></i>
+          <span class="login-node node-one"><b></b>Service Desk</span>
+          <span class="login-node node-two"><b></b>Time2Eat</span>
+          <span class="login-node node-three"><b></b>428 Sites</span>
+          <span class="login-node node-four"><b></b>1,842 Assets</span>
+          <span class="login-node node-five"><b></b>7 Sectors</span>
+          <span class="login-flow flow-one"></span><span class="login-flow flow-two"></span><span class="login-flow flow-three"></span>
+        </div>
+        <div class="login-stats">
+          <div><span>Service health</span><strong>99.97%</strong><small>within SLA</small></div>
+          <div><span>Estate signal</span><strong>8.4k</strong><small>events / sec</small></div>
+          <div><span>Time2Eat</span><strong>6.0m</strong><small>transactions / yr</small></div>
+        </div>
+      </aside>
+    </section>
+  </div>
+
+  <a class="skip-link" href="#dashboard">Skip to dashboard</a>
+
+  <header class="topbar">
+    <div class="brand-lockup">
+      <div class="brand-mark">
+        <img src="assets/compass-digital-logo.png" alt="Compass Digital and Technology UK and Ireland">
+      </div>
+      <div class="brand-copy">
+        <p class="eyebrow">Compass Digital &amp; Technology</p>
+        <h1>Compass D&amp;T Service Desk Dashboard</h1>
+      </div>
+    </div>
+
+    <div class="service-health" role="status" aria-live="polite">
+      <span class="health-pulse" aria-hidden="true"></span>
+      <span>All services operational</span>
+      <small>No major incident</small>
+    </div>
+
+    <div class="topbar-actions">
+      <div class="date-time" aria-label="Current dashboard time">
+        <strong id="clock">09:41:12</strong>
+        <span id="dateLabel">Friday 12 September 2026</span>
+      </div>
+      <button class="icon-button" id="fullscreenBtn" type="button" aria-label="Enter wall display mode" title="Wall display mode">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
+      </button>
+      <button class="logout-button" id="logoutBtn" type="button" title="Sign out of the demo"><span>Jarvis</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3M14 4h5a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-5"/></svg></button>
+    </div>
+  </header>
+
+  <main id="dashboard">
+    <section class="control-strip" aria-label="Dashboard controls">
+      <div class="live-status">
+        <button class="live-toggle is-live" id="liveToggle" type="button" aria-pressed="true">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span id="liveLabel">Live</span>
+        </button>
+        <span id="refreshText">Auto-refresh in 5s</span>
+      </div>
+      <div class="view-switcher" role="group" aria-label="Dashboard view">
+        <button class="view-button is-active" type="button" data-view="service" aria-pressed="true">Service Desk</button>
+        <button class="view-button" type="button" data-view="time2eat" aria-pressed="false">Time2Eat Estate</button>
+        <button class="view-button" type="button" data-view="godview" aria-pressed="false">God’s-eye View</button>
+        <button class="rotate-toggle" id="rotateToggle" type="button" aria-pressed="true" title="Pause automatic screen rotation">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7h-5V2M4 17h5v5M19 12a7 7 0 0 0-12-5L4 10M5 12a7 7 0 0 0 12 5l3-3"/></svg>
+          <span id="rotationLabel">Auto · 30s</span>
+        </button>
+      </div>
+      <button class="add-ticket-button" id="addTicketBtn" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        <span id="demoActionLabel">Add demo ticket</span>
+      </button>
+    </section>
+
+    <div class="dashboard-view" id="serviceDeskView">
+    <section class="metrics-grid" aria-label="Headline metrics">
+      <article class="metric-card metric-open">
+        <div class="metric-heading">
+          <span>Open tickets</span>
+          <span class="trend down">↓ 8.4%</span>
+        </div>
+        <div class="metric-content">
+          <div>
+            <strong class="metric-value" id="openCount">412</strong>
+            <p><b>38 fewer</b> than this time yesterday</p>
+          </div>
+          <svg class="sparkline" id="openSpark" viewBox="0 0 140 54" role="img" aria-label="Open tickets trending down"></svg>
+        </div>
+      </article>
+
+      <article class="metric-card metric-new">
+        <div class="metric-heading">
+          <span>New today</span>
+          <span class="trend neutral">Peak 09:00</span>
+        </div>
+        <div class="metric-content">
+          <div>
+            <strong class="metric-value" id="newCount">186</strong>
+            <p><b id="lastThirty">31</b> in the last 30 minutes</p>
+          </div>
+          <svg class="sparkline" id="newBars" viewBox="0 0 140 54" role="img" aria-label="Ticket arrivals today"></svg>
+        </div>
+      </article>
+
+      <article class="metric-card metric-resolved">
+        <div class="metric-heading">
+          <span>Resolved today</span>
+          <span class="trend up">↑ 11.2%</span>
+        </div>
+        <div class="metric-content">
+          <div>
+            <strong class="metric-value" id="resolvedCount">203</strong>
+            <p><b id="resolutionLead">17 ahead</b> of arrivals</p>
+          </div>
+          <svg class="sparkline" id="resolvedSpark" viewBox="0 0 140 54" role="img" aria-label="Resolved tickets trending up"></svg>
+        </div>
+      </article>
+
+      <article class="metric-card metric-automation">
+        <div class="metric-heading">
+          <span>Resolved by digital agents</span>
+          <span class="trend up">28.6%</span>
+        </div>
+        <div class="split-metric">
+          <div>
+            <strong class="metric-value small" id="aiResolved">58</strong>
+            <span>AI agents</span>
+          </div>
+          <div class="split-divider"></div>
+          <div>
+            <strong class="metric-value small" id="analystResolved">145</strong>
+            <span>Analysts</span>
+          </div>
+        </div>
+        <div class="meter" aria-label="Share resolved by digital agents">
+          <span id="automationMeter" style="width:28.6%"></span>
+        </div>
+      </article>
+
+      <article class="metric-card metric-response">
+        <div class="metric-heading">
+          <span>Median first response</span>
+          <span class="trend up">Within target</span>
+        </div>
+        <strong class="metric-value time-value"><span id="responseMinutes">4</span><em>m</em> <span id="responseSeconds">12</span><em>s</em></strong>
+        <div class="target-track" aria-label="Median response 4 minutes 12 seconds against 15 minute target">
+          <span class="target-fill" style="width:28%"></span>
+          <i style="left:100%"></i>
+        </div>
+        <p>Target <b>15m</b> · <b id="responseSla">96.4%</b> within SLA</p>
+      </article>
+
+      <article class="metric-card metric-csat">
+        <div class="metric-heading">
+          <span>Customer satisfaction</span>
+          <span class="trend up">↑ 0.2</span>
+        </div>
+        <div class="csat-row">
+          <strong class="metric-value">4.6<em>/5</em></strong>
+          <div class="rating-bars" aria-label="Customer satisfaction 4.6 out of 5">
+            <span></span><span></span><span></span><span></span><span class="partial"></span>
+          </div>
+        </div>
+        <p><b>218 responses</b> today · effort <b>1.4 / 5</b></p>
+      </article>
+    </section>
+
+    <section class="dashboard-grid">
+      <article class="panel priority-panel">
+        <header class="panel-header">
+          <div>
+            <p class="eyebrow">Current risk</p>
+            <h2>Open by priority</h2>
+          </div>
+          <span class="panel-note">within SLA · at risk · breached</span>
+        </header>
+        <div id="priorityRows" class="priority-rows"></div>
+        <footer class="legend">
+          <span><i class="legend-dot within"></i>Within SLA</span>
+          <span><i class="legend-dot risk"></i>At risk</span>
+          <span><i class="legend-dot breached"></i>Breached</span>
+        </footer>
+      </article>
+
+      <article class="panel age-panel">
+        <header class="panel-header">
+          <div>
+            <p class="eyebrow">Workload profile</p>
+            <h2>Age of open tickets</h2>
+          </div>
+          <span class="panel-note"><b id="medianAge">3h 48m</b> median · 32 older than 3 days</span>
+        </header>
+        <div class="age-chart" id="ageChart" role="img" aria-label="Open ticket age distribution"></div>
+      </article>
+
+      <article class="panel sla-panel">
+        <header class="panel-header">
+          <div>
+            <p class="eyebrow">Rolling 30 days</p>
+            <h2>Service levels</h2>
+          </div>
+          <span class="panel-note">response · resolution · first contact</span>
+        </header>
+        <div class="gauge-grid">
+          <div class="gauge-item">
+            <div class="gauge" style="--value:96.4; --target:95">
+              <div><strong id="slaResponseGauge">96.4%</strong><span>target 95%</span></div>
+            </div>
+            <h3>Response within SLA</h3>
+            <p>4,812 of 4,992 tickets</p>
+          </div>
+          <div class="gauge-item">
+            <div class="gauge" style="--value:92.1; --target:90">
+              <div><strong>92.1%</strong><span>target 90%</span></div>
+            </div>
+            <h3>Resolution within SLA</h3>
+            <p>4,318 of 4,689 closed</p>
+          </div>
+          <div class="gauge-item">
+            <div class="gauge aqua" style="--value:71; --target:70">
+              <div><strong>71.0%</strong><span>target 70%</span></div>
+            </div>
+            <h3>First contact resolution</h3>
+            <p>No repeat contact in 7 days</p>
+          </div>
+        </div>
+        <div class="resolution-targets">
+          <div><b>P1</b><span><i style="width:70%"></i></span><strong>2h 48m</strong><small>of 4h</small></div>
+          <div><b>P2</b><span><i style="width:63%"></i></span><strong>5h 10m</strong><small>of 8h</small></div>
+          <div><b>P3</b><span><i style="width:52%"></i></span><strong>1d 6h</strong><small>of 3d</small></div>
+          <div><b>P4</b><span><i style="width:56%"></i></span><strong>2d 14h</strong><small>of 5d</small></div>
+        </div>
+      </article>
+
+      <article class="panel arrivals-panel">
+        <header class="panel-header">
+          <div>
+            <p class="eyebrow">Demand</p>
+            <h2>Incoming · last 60 minutes</h2>
+          </div>
+          <span class="panel-note"><b id="contactCount">146</b> contacts · 41% portal</span>
+        </header>
+        <div class="arrivals-chart-wrap">
+          <div class="y-axis" aria-hidden="true"><span>16</span><span>12</span><span>8</span><span>4</span><span>0</span></div>
+          <div class="arrivals-chart" id="arrivalsChart" role="img" aria-label="Incoming tickets by channel over the last 60 minutes"></div>
+        </div>
+        <footer class="legend channel-legend">
+          <span><i class="legend-dot portal"></i>Portal</span>
+          <span><i class="legend-dot teams"></i>Teams</span>
+          <span><i class="legend-dot phone"></i>Phone</span>
+          <span><i class="legend-dot email"></i>Email</span>
+        </footer>
+      </article>
+
+      <article class="panel queue-panel">
+        <header class="panel-header queue-header">
+          <div>
+            <p class="eyebrow">One queue · all Campus locations</p>
+            <h2>Live ticket flow</h2>
+          </div>
+          <div class="queue-filters">
+            <label>
+              <span class="sr-only">Filter by priority</span>
+              <select id="priorityFilter">
+                <option value="all">All priorities</option>
+                <option value="P1">P1 · Critical</option>
+                <option value="P2">P2 · High</option>
+                <option value="P3">P3 · Standard</option>
+                <option value="P4">P4 · Low</option>
+              </select>
+            </label>
+            <label>
+              <span class="sr-only">Filter by channel</span>
+              <select id="channelFilter">
+                <option value="all">All channels</option>
+                <option value="Portal">Portal</option>
+                <option value="Teams">Teams</option>
+                <option value="Phone">Phone</option>
+                <option value="Email">Email</option>
+              </select>
+            </label>
+          </div>
+        </header>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Time</th><th>ID</th><th>Priority</th><th>Location</th><th>Summary</th><th>Channel</th><th>Age</th><th>Status</th></tr>
+            </thead>
+            <tbody id="ticketTable"></tbody>
+          </table>
+        </div>
+        <div class="empty-state" id="emptyState" hidden>No tickets match these filters.</div>
+      </article>
+
+      <article class="panel operations-panel">
+        <header class="panel-header">
+          <div>
+            <p class="eyebrow">Ownership</p>
+            <h2>Open by resolver group</h2>
+          </div>
+          <span class="panel-note">count · oldest</span>
+        </header>
+        <div class="resolver-list" id="resolverList"></div>
+        <div class="agent-summary">
+          <header>
+            <h3>Today’s resolution mix</h3>
+            <span>203 total</span>
+          </header>
+          <div class="resolution-ring" style="--analyst:71.4">
+            <div><strong>58</strong><span>digital agents</span></div>
+            <div><strong>145</strong><span>analysts</span></div>
+          </div>
+        </div>
+        <div class="ops-note">
+          <span class="health-pulse small" aria-hidden="true"></span>
+          Routing accuracy <strong>96%</strong> · AI safety controls normal
+        </div>
+      </article>
+    </section>
+
+    <section class="activity-rail" aria-label="Live activity">
+      <div class="activity-title"><span class="live-dot" aria-hidden="true"></span>Live activity</div>
+      <div class="activity-feed" id="activityFeed" aria-live="polite"></div>
+      <span class="illustrative-label">Illustrative demo data</span>
+    </section>
+    </div>
+
+    <div class="dashboard-view" id="time2eatView" hidden>
+      <section class="t2e-heading" aria-labelledby="t2eTitle">
+        <div>
+          <p class="eyebrow">Real-time estate command</p>
+          <h2 id="t2eTitle">Time2Eat connected estate</h2>
+          <p>Live health and telemetry across every Campus trading touchpoint</p>
+        </div>
+        <div class="t2e-status" role="status">
+          <span class="health-pulse" aria-hidden="true"></span>
+          Platform operational
+          <small>Last heartbeat <b id="heartbeatAge">8s ago</b></small>
+        </div>
+      </section>
+
+      <section class="t2e-metrics" aria-label="Time2Eat estate headline metrics">
+        <article class="t2e-metric">
+          <div class="t2e-metric-icon devices-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+          </div>
+          <div><span>Connected devices</span><strong id="deviceTotal">1,842</strong><small>across 428 Campus locations</small></div>
+        </article>
+        <article class="t2e-metric healthy-metric">
+          <div class="t2e-metric-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg>
+          </div>
+          <div><span>Online &amp; healthy</span><strong id="healthyDevices">1,786</strong><small><b id="healthyPercent">97.0%</b> of the estate</small></div>
+        </article>
+        <button class="t2e-metric offline-metric interactive-metric" id="offlineDrilldown" type="button" aria-label="View 23 offline devices by site">
+          <div class="t2e-metric-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 8v5M12 17h.01"/><path d="M10.3 3.8 2.2 18a2 2 0 0 0 1.7 3h16.2a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"/></svg>
+          </div>
+          <div><span>Offline</span><strong id="offlineDevices">23</strong><small><b id="offlineSites">17</b> locations affected</small></div>
+          <span class="drill-cue">View sites <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span>
+        </button>
+        <article class="t2e-metric slow-metric">
+          <div class="t2e-metric-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <div><span>Performance issues</span><strong id="slowDevices">33</strong><small>running slower than baseline</small></div>
+        </article>
+        <article class="t2e-metric transactions-metric">
+          <div class="t2e-metric-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19V2"/></svg>
+          </div>
+          <div><span>Transactions today</span><strong id="transactionCount">13,842</strong><small><b>99.98%</b> successfully processed</small></div>
+        </article>
+      </section>
+
+      <section class="t2e-grid">
+        <article class="panel connectivity-panel">
+          <header class="panel-header">
+            <div>
+              <p class="eyebrow">Live connectivity super highway</p>
+              <h2>Cloud-to-device heartbeat</h2>
+            </div>
+            <div class="throughput"><span>Live throughput</span><strong id="throughputValue">4.8k</strong><small>events/sec</small></div>
+          </header>
+
+          <div class="network-stage" id="networkStage" role="img" aria-label="Animated Time2Eat connectivity flowing from cloud services to POS terminals, kiosks and kitchen management devices">
+            <svg class="network-lines" viewBox="0 0 1000 430" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="flowBlue" x1="0" x2="1"><stop offset="0" stop-color="#10d1d5" stop-opacity=".12"/><stop offset=".5" stop-color="#5db4ff"/><stop offset="1" stop-color="#10d1d5" stop-opacity=".2"/></linearGradient>
+                <filter id="flowGlow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <path class="highway-base" d="M75 215 C180 215 205 215 290 215 S390 215 455 215"/>
+              <path class="highway-flow main-flow" id="route-inbound" d="M75 215 C180 215 205 215 290 215 S390 215 455 215"/>
+              <path class="highway-base" d="M545 215 C640 215 650 85 750 85 S880 85 940 85"/>
+              <path class="highway-flow flow-one" id="route-pos" d="M545 215 C640 215 650 85 750 85 S880 85 940 85"/>
+              <path class="highway-base" d="M545 215 C650 215 680 215 760 215 S880 215 940 215"/>
+              <path class="highway-flow flow-two" id="route-kiosk" d="M545 215 C650 215 680 215 760 215 S880 215 940 215"/>
+              <path class="highway-base" d="M545 215 C640 215 650 345 750 345 S880 345 940 345"/>
+              <path class="highway-flow flow-three" id="route-kitchen" d="M545 215 C640 215 650 345 750 345 S880 345 940 345"/>
+
+              <g class="data-packets">
+                <circle class="data-packet" r="4"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#route-inbound"/></animateMotion></circle>
+                <circle class="data-packet secondary" r="3"><animateMotion dur="2.8s" begin="-1.4s" repeatCount="indefinite"><mpath href="#route-inbound"/></animateMotion></circle>
+                <circle class="data-packet" r="4"><animateMotion dur="3.1s" repeatCount="indefinite"><mpath href="#route-pos"/></animateMotion></circle>
+                <circle class="data-packet secondary" r="3"><animateMotion dur="3.1s" begin="-1.55s" repeatCount="indefinite"><mpath href="#route-pos"/></animateMotion></circle>
+                <circle class="data-packet" r="4"><animateMotion dur="2.6s" begin="-.4s" repeatCount="indefinite"><mpath href="#route-kiosk"/></animateMotion></circle>
+                <circle class="data-packet secondary" r="3"><animateMotion dur="2.6s" begin="-1.7s" repeatCount="indefinite"><mpath href="#route-kiosk"/></animateMotion></circle>
+                <circle class="data-packet" r="4"><animateMotion dur="3.35s" begin="-.8s" repeatCount="indefinite"><mpath href="#route-kitchen"/></animateMotion></circle>
+                <circle class="data-packet secondary" r="3"><animateMotion dur="3.35s" begin="-2.45s" repeatCount="indefinite"><mpath href="#route-kitchen"/></animateMotion></circle>
+              </g>
+            </svg>
+
+            <div class="network-origin">
+              <div class="origin-mark"><span></span><span></span><span></span></div>
+              <strong>Compass network</strong>
+              <small>428 locations</small>
+            </div>
+
+            <div class="cloud-hub">
+              <div class="hub-orbit"></div>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 19H7a5 5 0 0 1-.7-9.95A6.5 6.5 0 0 1 18.7 8a5.5 5.5 0 0 1-1.2 11Z"/><path d="M8 14h8M10 11h4M10 17h4"/></svg>
+              <strong>Time2Eat Cloud</strong>
+              <small>99.99% available</small>
+              <span class="hub-rate" id="hubLatency">38ms</span>
+            </div>
+
+            <div class="device-node pos-node" data-device="pos">
+              <div class="node-status"></div>
+              <div class="node-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="14" rx="2"/><path d="M8 21h8M12 17v4M8 8h8M8 12h5"/></svg></div>
+              <div><span>POS terminals</span><strong id="posTotal">842</strong><small><b id="posHealthy">816</b> healthy · <em id="posOffline">14</em> offline · <i id="posSlow">12</i> slow</small></div>
+            </div>
+            <div class="device-node kiosk-node" data-device="kiosk">
+              <div class="node-status"></div>
+              <div class="node-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="18" rx="2"/><path d="M9 6h6M9 10h6M10 23h4M12 20v3"/></svg></div>
+              <div><span>Self-service kiosks</span><strong id="kioskTotal">466</strong><small><b id="kioskHealthy">450</b> healthy · <em id="kioskOffline">5</em> offline · <i id="kioskSlow">11</i> slow</small></div>
+            </div>
+            <div class="device-node kitchen-node" data-device="kitchen">
+              <div class="node-status"></div>
+              <div class="node-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 8h4v3H7zM14 8h3M14 11h3M7 15h10M9 22h6M12 18v4"/></svg></div>
+              <div><span>Kitchen management</span><strong id="kitchenTotal">534</strong><small><b id="kitchenHealthy">520</b> healthy · <em id="kitchenOffline">4</em> offline · <i id="kitchenSlow">10</i> slow</small></div>
+            </div>
+
+          </div>
+
+          <footer class="network-legend">
+            <span><i class="healthy"></i>Healthy heartbeat</span>
+            <span><i class="slow"></i>Performance degraded</span>
+            <span><i class="offline"></i>Device offline</span>
+            <span class="network-updated">Estate scan completed <b id="scanTime">just now</b></span>
+          </footer>
+        </article>
+
+        <article class="panel estate-panel">
+          <header class="panel-header">
+            <div>
+              <p class="eyebrow">Estate healthcheck</p>
+              <h2>Device condition</h2>
+            </div>
+            <span class="panel-note">healthy · slow · offline</span>
+          </header>
+          <div class="estate-bars" id="estateBars"></div>
+          <div class="availability-block">
+            <div>
+              <span>Platform availability</span>
+              <strong>99.99%</strong>
+              <small>rolling 30 days</small>
+            </div>
+            <svg class="sparkline availability-spark" id="availabilitySpark" viewBox="0 0 220 58" role="img" aria-label="Platform availability stable at 99.99 percent"></svg>
+          </div>
+          <div class="healthcheck-stats">
+            <div><span>API response</span><strong id="apiResponse">124ms</strong></div>
+            <div><span>Device check-in</span><strong>30 sec</strong></div>
+            <div><span>Data freshness</span><strong id="dataFreshness">8 sec</strong></div>
+          </div>
+        </article>
+
+        <article class="panel issues-panel">
+          <header class="panel-header">
+            <div>
+              <p class="eyebrow">Action required</p>
+              <h2>Locations needing attention</h2>
+            </div>
+            <span class="panel-note"><b id="affectedCount">17</b> affected</span>
+          </header>
+          <div class="issue-list" id="deviceIssueList"></div>
+        </article>
+
+        <article class="panel pulse-panel">
+          <header class="panel-header">
+            <div>
+              <p class="eyebrow">Trading pulse</p>
+              <h2>Total transactions</h2>
+            </div>
+            <div class="transaction-live-total">
+              <span id="transactionRangeLabel">Last hour</span>
+              <strong id="transactionRangeTotal">1,126</strong>
+              <small><i></i>processed · live</small>
+            </div>
+          </header>
+          <div class="transaction-range-controls" role="group" aria-label="Transaction reporting period">
+            <button class="is-active" type="button" data-transaction-range="hour" aria-pressed="true">Last hour</button>
+            <button type="button" data-transaction-range="day" aria-pressed="false">Last day</button>
+            <button type="button" data-transaction-range="7d" aria-pressed="false">Last 7 days</button>
+            <button type="button" data-transaction-range="month" aria-pressed="false">Last month</button>
+            <button type="button" data-transaction-range="year" aria-pressed="false">Last year</button>
+            <button type="button" data-transaction-range="ytd" aria-pressed="false">YTD</button>
+          </div>
+          <div class="pulse-chart" id="pulseChart" role="img" aria-label="Successful and retried transactions over the last 60 minutes"></div>
+          <footer class="legend">
+            <span><i class="legend-dot teams"></i>Successful</span>
+            <span><i class="legend-dot risk"></i>Retried</span>
+            <span class="pulse-peak">Peak <b id="pulsePeakValue">52/min</b> · <span id="pulsePeakTime">12:34</span></span>
+          </footer>
+        </article>
+      </section>
+
+      <section class="activity-rail t2e-activity" aria-label="Time2Eat live activity">
+        <div class="activity-title"><span class="live-dot" aria-hidden="true"></span>Estate telemetry</div>
+        <div class="activity-feed" id="t2eActivityFeed" aria-live="polite">All device groups reporting · <strong>1,842 heartbeats</strong> received in the latest scan</div>
+        <span class="illustrative-label">Illustrative demo data</span>
+      </section>
+    </div>
+
+    <div class="dashboard-view" id="godView" hidden>
+      <section class="god-heading" aria-labelledby="godViewTitle">
+        <div>
+          <p class="eyebrow">Connected enterprise intelligence</p>
+          <h2 id="godViewTitle">Compass God’s-eye View</h2>
+          <p>A living relationship model of central functions, sectors, regions, sites and connected assets</p>
+        </div>
+        <div class="god-live-status" role="status">
+          <span class="god-orbit-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+          <div><strong>Digital estate synchronised</strong><small id="godSyncLabel">8,412 active data flows</small></div>
+        </div>
+      </section>
+
+      <section class="god-metrics" aria-label="Compass estate model metrics">
+        <article><span>Modelled entities</span><strong id="godEntityTotal">2,387</strong><small>organisations, platforms and assets</small></article>
+        <article><span>Compass locations</span><strong>428</strong><small>40 sector-region clusters</small></article>
+        <article><span>Connected endpoints</span><strong>1,842</strong><small>POS · kiosk · kitchen</small></article>
+        <article><span>Business areas</span><strong>7</strong><small>26 sub-sectors · 7 functions</small></article>
+        <article class="attention"><span>Needs attention</span><strong id="godAttentionCount">21</strong><small>7 offline · 14 degraded</small></article>
+        <article><span>Telemetry flow</span><strong id="godFlowRate">8.4k</strong><small>events every second</small></article>
+      </section>
+
+      <section class="god-layout">
+        <article class="panel universe-panel">
+          <header class="panel-header universe-header">
+            <div>
+              <p class="eyebrow">Interactive 3D relationship model</p>
+              <h2>Compass digital universe</h2>
+            </div>
+            <div class="universe-controls" role="group" aria-label="3D model controls">
+              <button id="godReset" type="button" title="Reset 3D view">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v6h6M20 20v-6h-6M5.6 15A8 8 0 0 0 19 17M18.4 9A8 8 0 0 0 5 7"/></svg>
+                Reset
+              </button>
+              <button class="is-active" id="godAutoRotate" type="button" aria-pressed="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9M21 3v6h-6"/></svg>
+                Auto-rotate
+              </button>
+              <button class="is-active" id="godLabels" type="button" aria-pressed="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM8 9h8M8 13h5"/></svg>
+                Labels
+              </button>
+              <button id="godAttentionOnly" type="button" aria-pressed="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v5M12 17h.01"/><path d="M10.3 3.8 2.2 18a2 2 0 0 0 1.7 3h16.2a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"/></svg>
+                Attention only
+              </button>
+              <button id="godFullscreen" type="button" aria-pressed="false" title="Open the model full screen">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
+                <span id="godFullscreenLabel">Expand</span>
+              </button>
+            </div>
+          </header>
+
+          <div class="god-hierarchy-band" aria-label="Model hierarchy">
+            <span>Compass UK&amp;I</span><i>→</i><span>Central functions + sectors</span><i>→</i><span>Sub-sectors</span><i>→</i><span>Regions</span><i>→</i><span>Sites</span><i>→</i><span>Assets</span>
+          </div>
+
+          <div class="universe-canvas-wrap" id="godCanvasWrap">
+            <canvas id="godCanvas" aria-label="Interactive three-dimensional graph of the Compass digital estate. Drag to rotate, scroll to zoom and select a node to inspect it."></canvas>
+            <div class="canvas-axis" aria-hidden="true"><i class="axis-x"></i><i class="axis-y"></i><i class="axis-z"></i><span>X</span><span>Y</span><span>Z</span></div>
+            <div class="canvas-help"><span>Drag to rotate</span><i></i><span>Scroll to zoom</span><i></i><span>Select to inspect</span></div>
+            <div class="zoom-readout" id="godZoomReadout">100%</div>
+          </div>
+
+          <footer class="universe-legend" aria-label="Entity and health legend">
+            <div><span class="god-key core"></span>Enterprise core</div>
+            <div><span class="god-key sector"></span>Sector / function</div>
+            <div><span class="god-key healthy"></span>Healthy</div>
+            <div><span class="god-key degraded"></span>Degraded</div>
+            <div><span class="god-key offline"></span>Offline</div>
+            <div><span class="flow-key"></span>Live data flow</div>
+            <span class="universe-count"><b id="visibleNodeCount">2,387</b> entities in view</span>
+          </footer>
+        </article>
+
+        <aside class="panel god-inspector" aria-labelledby="godInspectorTitle">
+          <header class="panel-header">
+            <div>
+              <p class="eyebrow">Entity intelligence</p>
+              <h2 id="godInspectorTitle">Model overview</h2>
+            </div>
+            <span class="panel-note" id="godSelectionType">No selection</span>
+          </header>
+          <div class="god-inspector-body" id="godInspector"></div>
+          <div class="god-events">
+            <header><h3>Signals now</h3><span>live model events</span></header>
+            <div id="godEventList"></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="activity-rail god-activity" aria-label="Compass model activity">
+        <div class="activity-title"><span class="live-dot" aria-hidden="true"></span>Graph telemetry</div>
+        <div class="activity-feed" id="godActivityFeed" aria-live="polite">Relationship model online · <strong>7 sectors and 7 central functions mapped</strong> · dependency paths responding normally</div>
+        <span class="illustrative-label">Illustrative demo data</span>
+      </section>
+    </div>
+  </main>
+
+  <aside class="ticket-drawer" id="ticketDrawer" aria-hidden="true" aria-labelledby="drawerTitle">
+    <div class="drawer-backdrop" data-close-drawer></div>
+    <div class="drawer-panel" role="dialog" aria-modal="true">
+      <header class="drawer-header">
+        <div>
+          <p class="eyebrow">Ticket detail</p>
+          <h2 id="drawerTitle">INC48231</h2>
+        </div>
+        <button class="icon-button" type="button" data-close-drawer aria-label="Close ticket detail">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </header>
+      <div class="drawer-body" id="drawerBody"></div>
+      <footer class="drawer-actions">
+        <button class="secondary-button" id="assignTicketBtn" type="button">Assign analyst</button>
+        <button class="primary-button" id="advanceTicketBtn" type="button">Advance triage</button>
+      </footer>
+    </div>
+  </aside>
+
+  <aside class="estate-drawer" id="estateDrawer" aria-hidden="true" aria-labelledby="estateDrawerTitle">
+    <div class="drawer-backdrop" data-close-estate></div>
+    <div class="estate-drawer-panel" role="dialog" aria-modal="true">
+      <header class="estate-drawer-header">
+        <div>
+          <p class="eyebrow">Time2Eat estate explorer</p>
+          <div class="estate-breadcrumb" id="estateBreadcrumb" aria-label="Current drill-down level">All affected sites</div>
+          <h2 id="estateDrawerTitle">Offline devices</h2>
+        </div>
+        <button class="icon-button" type="button" data-close-estate aria-label="Close estate explorer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </header>
+      <div class="estate-explorer" id="estateExplorer" aria-live="polite"></div>
+    </div>
+  </aside>
+
+  <aside class="priority-drawer" id="priorityDrawer" aria-hidden="true" aria-labelledby="priorityDrawerTitle">
+    <div class="drawer-backdrop" data-close-priority></div>
+    <div class="priority-drawer-panel" role="dialog" aria-modal="true">
+      <header class="priority-drawer-header">
+        <div>
+          <p class="eyebrow">Service Desk workload explorer</p>
+          <div class="priority-breadcrumb">Open tickets <span>›</span> Priority queue</div>
+          <h2 id="priorityDrawerTitle">P1 · Critical</h2>
+        </div>
+        <button class="icon-button" type="button" data-close-priority aria-label="Close priority queue">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </header>
+      <div class="priority-explorer" id="priorityExplorer" aria-live="polite"></div>
+    </div>
+  </aside>
+
+  <div class="toast-region" id="toastRegion" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
