@@ -94,7 +94,7 @@ body.login-locked { overflow: hidden; }
 .node-three b, .node-four b { background: var(--green); box-shadow: 0 0 8px var(--green); }.node-five b { background: #9b8cff; box-shadow: 0 0 8px #9b8cff; }
 .login-flow { height: 1px; position: absolute; z-index: 1; display: block; overflow: hidden; background: linear-gradient(90deg, transparent, rgba(16,209,213,.65), transparent); transform-origin: left center; }
 .login-flow::after { content: ""; width: 8px; height: 3px; position: absolute; top: -1px; border-radius: 50%; background: #baffff; box-shadow: 0 0 10px var(--cyan); animation: loginData 2.4s linear infinite; }
-.flow-one { width: 280px; left: 26%; top: 40%; transform: rotate(16deg); }.flow-two { width: 250px; left: 42%; top: 55%; transform: rotate(-28deg); }.flow-three { width: 300px; left: 21%; top: 62%; transform: rotate(-8deg); }
+.login-flow-one { width: 280px; left: 26%; top: 40%; transform: rotate(16deg); }.login-flow-two { width: 250px; left: 42%; top: 55%; transform: rotate(-28deg); }.login-flow-three { width: 300px; left: 21%; top: 62%; transform: rotate(-8deg); }
 @keyframes loginData { from { left: -8px; } to { left: 100%; } }
 .login-stats { min-height: 75px; position: relative; z-index: 3; display: grid; grid-template-columns: repeat(3,1fr); overflow: hidden; border: 1px solid rgba(164,203,226,.1); border-radius: 9px; background: rgba(4,22,33,.66); }
 .login-stats > div { padding: 13px 15px; border-left: 1px solid rgba(164,203,226,.08); }
