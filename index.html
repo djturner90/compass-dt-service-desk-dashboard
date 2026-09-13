@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260913-2">
+  <link rel="stylesheet" href="styles.css?v=20260913-3">
 </head>
 <body class="login-locked">
   <div class="login-screen" id="loginScreen">
@@ -571,7 +571,7 @@
         <div>
           <p class="eyebrow">Connected enterprise intelligence</p>
           <h2 id="godViewTitle">Compass God’s-eye View</h2>
-          <p>A living relationship model of central functions, sectors, regions, sites and connected assets</p>
+          <p>A living hierarchy of Compass UK&amp;I, sectors, sub-sectors, sites and connected devices</p>
         </div>
         <div class="god-live-status" role="status">
           <span class="god-orbit-icon" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -580,10 +580,10 @@
       </section>
 
       <section class="god-metrics" aria-label="Compass estate model metrics">
-        <article><span>Modelled entities</span><strong id="godEntityTotal">2,387</strong><small>organisations, platforms and assets</small></article>
-        <article><span>Compass locations</span><strong>428</strong><small>40 sector-region clusters</small></article>
-        <article><span>Connected endpoints</span><strong>1,842</strong><small>POS · kiosk · kitchen</small></article>
-        <article><span>Business areas</span><strong>7</strong><small>26 sub-sectors · 7 functions</small></article>
+        <article><span>Modelled entities</span><strong id="godEntityTotal">2,347</strong><small>organisations, platforms, sites and devices</small></article>
+        <article><span>Compass locations</span><strong>428</strong><small>classified across UK&amp;I regions</small></article>
+        <article><span>Connected devices</span><strong>1,842</strong><small>POS · kiosk · kitchen</small></article>
+        <article><span>Business sectors</span><strong>7</strong><small>26 sub-sectors · 7 central functions</small></article>
         <article class="attention"><span>Needs attention</span><strong id="godAttentionCount">21</strong><small>7 offline · 14 degraded</small></article>
         <article><span>Telemetry flow</span><strong id="godFlowRate">8.4k</strong><small>events every second</small></article>
       </section>
@@ -620,7 +620,7 @@
           </header>
 
           <div class="god-hierarchy-band" aria-label="Model hierarchy">
-            <span>Compass UK&amp;I</span><i>→</i><span>Central functions + sectors</span><i>→</i><span>Sub-sectors</span><i>→</i><span>Regions</span><i>→</i><span>Sites</span><i>→</i><span>Assets</span>
+            <span>Compass UK&amp;I</span><i>→</i><span>Business sectors</span><i>→</i><span>Sub-sectors</span><i>→</i><span>Sites · grouped by region</span><i>→</i><span>Connected devices</span><em>Central functions connect directly to Compass UK&amp;I</em>
           </div>
 
           <div class="universe-canvas-wrap" id="godCanvasWrap">
@@ -635,13 +635,14 @@
           </div>
 
           <footer class="universe-legend" aria-label="Entity and health legend">
-            <div><span class="god-key core"></span>Enterprise core</div>
-            <div><span class="god-key sector"></span>Sector / function</div>
+            <div><span class="god-key core"></span>Compass UK&amp;I</div>
+            <div><span class="god-key sector"></span>Sector</div>
+            <div><span class="god-key subsector"></span>Sub-sector</div>
             <div><span class="god-key healthy"></span>Healthy</div>
             <div><span class="god-key degraded"></span>Degraded</div>
             <div><span class="god-key offline"></span>Offline</div>
             <div><span class="flow-key"></span>Live data flow</div>
-            <span class="universe-count"><b id="visibleNodeCount">2,387</b> entities in view</span>
+            <span class="universe-count"><b id="visibleNodeCount">2,347</b> entities in view</span>
           </footer>
         </article>
 
@@ -724,6 +725,6 @@
   </aside>
 
   <div class="toast-region" id="toastRegion" aria-live="polite"></div>
-  <script src="app.js"></script>
+  <script src="app.js?v=20260913-3"></script>
 </body>
 </html>

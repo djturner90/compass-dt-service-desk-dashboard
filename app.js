@@ -1026,7 +1026,7 @@ function buildGodGraph() {
     return names.map((name, index) => ({ name, count: base + (index < total % names.length ? 1 : 0) }));
   };
 
-  addNode({ id: "compass-core", label: "Compass Digital Core", type: "core", status: "core", x: 0, y: 0, z: 0, radius: 11, availability: "99.99%", latency: "18ms" });
+  addNode({ id: "compass-core", label: "Compass UK&I", type: "core", status: "core", x: 0, y: 0, z: 0, radius: 22, availability: "99.99%", latency: "18ms" });
   const services = ["Compass Network", "Time2Eat Cloud", "Service Desk", "Identity & Access", "Data Platform", "Security Operations", "People & Access"];
   services.forEach((label, index) => {
     const angle = index / services.length * Math.PI * 2;
@@ -1038,7 +1038,7 @@ function buildGodGraph() {
       x: Math.cos(angle) * 84,
       y: Math.sin(angle) * 62,
       z: Math.sin(angle * 2) * 55,
-      radius: 6,
+      radius: 6.2,
       availability: index === 1 ? "99.99%" : "99.97%",
       latency: `${22 + index * 7}ms`,
       flowRate: `${(1.2 + index * .34).toFixed(1)}k/sec`
@@ -1050,8 +1050,10 @@ function buildGodGraph() {
   supportingPlatforms.forEach((label, index) => {
     const ring = index % 2 === 0 ? 42 : 62;
     const angle = index / supportingPlatforms.length * Math.PI * 6;
-    const node = addNode({ id: `platform-${index}`, label, type: "platform", status: "healthy", x: Math.cos(angle) * ring, y: Math.sin(angle) * ring * .62, z: (index % 5 - 2) * 20, radius: 2.7, availability: "99.95%", latency: `${31 + index % 9 * 5}ms`, flowRate: `${220 + index * 11}/sec` });
-    addEdge("compass-core", node.id, "platform-link");
+    const serviceIndex = index % services.length;
+    const serviceAngle = serviceIndex / services.length * Math.PI * 2;
+    const node = addNode({ id: `platform-${index}`, label, type: "platform", status: "healthy", x: Math.cos(serviceAngle) * 84 + Math.cos(angle) * ring * .48, y: Math.sin(serviceAngle) * 62 + Math.sin(angle) * ring * .34, z: Math.sin(serviceAngle * 2) * 55 + (index % 5 - 2) * 9, radius: 2.5, availability: "99.95%", latency: `${31 + index % 9 * 5}ms`, flowRate: `${220 + index * 11}/sec` });
+    addEdge(`service-${serviceIndex}`, node.id, "platform-link");
   });
 
   const centralFunctions = ["Foodbuy", "People", "Legal", "Finance", "Digital & Technology", "Sustainability", "Growth & Commercial"];
@@ -1065,7 +1067,7 @@ function buildGodGraph() {
       x: Math.cos(angle) * 132,
       y: Math.sin(angle) * 98,
       z: Math.cos(angle * 2) * 76,
-      radius: 6.4,
+      radius: 8.5,
       scope: "Cross-enterprise",
       color: "#56d6d9"
     });
@@ -1097,72 +1099,50 @@ function buildGodGraph() {
       x: Math.cos(sectorAngle) * 218,
       y: Math.sin(sectorAngle) * 158,
       z: Math.sin(sectorAngle * 2) * 96,
-      radius: 8.4,
+      radius: 15.5,
       color: sector.color,
       siteCount: sector.sites,
       subsectorCount: sector.subsectors.length,
       attentionCount: 0,
-      endpointCount: 0
+      endpointCount: 0,
+      regionCount: (sector.id === "ireland" ? irelandRegions : ukRegions).length
     });
     addEdge("compass-core", sectorNode.id, "business-link");
-    addEdge("service-0", sectorNode.id, "service-route");
-    addEdge("service-1", sectorNode.id, "service-route");
-    addEdge("service-2", sectorNode.id, "service-route");
-    centralFunctions.forEach((_, functionIndex) => addEdge(`function-${functionIndex}`, sectorNode.id, "governance-link"));
-
-    const subsectorNodes = sector.subsectors.map((label, subIndex) => {
-      const angle = sectorAngle + subIndex / sector.subsectors.length * Math.PI * 2;
-      const node = addNode({
+    const regionNames = sector.id === "ireland" ? irelandRegions : ukRegions;
+    spreadCounts(sector.sites, sector.subsectors).forEach((subsector, subIndex) => {
+      const subsectorAngle = sectorAngle + subIndex / sector.subsectors.length * Math.PI * 2 + .2;
+      const subsectorNode = addNode({
         id: `subsector-${sector.id}-${subIndex}`,
-        label,
+        label: subsector.name,
         type: "subsector",
         status: "core",
         sector: sector.name,
         sectorId: sectorNode.id,
-        x: sectorNode.x + Math.cos(angle) * 31,
-        y: sectorNode.y + Math.sin(angle) * 24,
-        z: sectorNode.z + Math.cos(angle * 1.7) * 28,
-        radius: 4.5,
+        x: sectorNode.x + Math.cos(subsectorAngle) * 47,
+        y: sectorNode.y + Math.sin(subsectorAngle) * 36,
+        z: sectorNode.z + Math.cos(subsectorAngle * 1.7) * 42,
+        radius: 9,
         color: sector.color,
-        siteCount: 0,
-        endpointCount: 0
-      });
-      addEdge(sectorNode.id, node.id, "sector-link");
-      return node;
-    });
-
-    const regionNames = sector.id === "ireland" ? irelandRegions : ukRegions;
-    spreadCounts(sector.sites, regionNames).forEach((region, regionIndex) => {
-      const regionAngle = sectorAngle + regionIndex / regionNames.length * Math.PI * 2 + .36;
-      const regionNode = addNode({
-        id: `region-${sector.id}-${regionIndex}`,
-        label: region.name,
-        type: "region",
-        status: "core",
-        sector: sector.name,
-        sectorId: sectorNode.id,
-        region: region.name,
-        x: sectorNode.x + Math.cos(regionAngle) * 59,
-        y: sectorNode.y + Math.sin(regionAngle) * 44,
-        z: sectorNode.z + Math.sin(regionAngle * 1.45) * 52,
-        radius: 5.3,
-        color: sector.color,
-        siteCount: region.count,
+        siteCount: subsector.count,
         endpointCount: 0,
-        attentionCount: 0
+        attentionCount: 0,
+        regionCount: 0,
+        regions: []
       });
-      addEdge(sectorNode.id, regionNode.id, "regional");
+      addEdge(sectorNode.id, subsectorNode.id, "sector-link");
+      const usedRegions = new Set();
 
-      for (let localIndex = 0; localIndex < region.count; localIndex += 1) {
-        const angle = localIndex * 2.399963 + sectorIndex * .71 + regionIndex * .43;
-        const radial = 12 + Math.sqrt((localIndex + 1) / region.count) * 22;
+      for (let localIndex = 0; localIndex < subsector.count; localIndex += 1) {
+        const regionName = regionNames[(subIndex + localIndex) % regionNames.length];
+        usedRegions.add(regionName);
+        const angle = localIndex * 2.399963 + sectorIndex * .71 + subIndex * .43;
+        const radial = 15 + Math.sqrt((localIndex + 1) / subsector.count) * 31;
         const assets = siteIndex < 130 ? 5 : 4;
         const pos = Math.max(1, Math.round(assets * .46));
         const kiosk = Math.max(1, Math.round(assets * .25));
         const kitchen = Math.max(0, assets - pos - kiosk);
         const status = offlineIndexes.has(siteIndex) ? "offline" : degradedIndexes.has(siteIndex) ? "degraded" : "healthy";
         const siteCode = String(siteIndex + 1).padStart(4, "0");
-        const subsectorNode = subsectorNodes[siteIndex % subsectorNodes.length];
         const siteNode = addNode({
           id: `site-${siteCode}`,
           label: `Compass Site ${siteCode}`,
@@ -1172,29 +1152,25 @@ function buildGodGraph() {
           sectorId: sectorNode.id,
           subsector: subsectorNode.label,
           subsectorId: subsectorNode.id,
-          region: region.name,
-          regionId: regionNode.id,
-          x: regionNode.x + Math.cos(angle) * radial,
-          y: regionNode.y + Math.sin(angle) * radial * .72,
-          z: regionNode.z + (random() - .5) * 40,
-          radius: status === "healthy" ? 2.05 : 3.2,
+          region: regionName,
+          x: subsectorNode.x + Math.cos(angle) * radial,
+          y: subsectorNode.y + Math.sin(angle) * radial * .72,
+          z: subsectorNode.z + (random() - .5) * 44,
+          radius: status === "healthy" ? 3.1 : 4.5,
           assets, pos, kiosk, kitchen,
           latency: status === "offline" ? "No heartbeat" : status === "degraded" ? `${540 + Math.floor(random() * 1600)}ms` : `${28 + Math.floor(random() * 92)}ms`,
           lastSeen: status === "offline" ? `${2 + Math.floor(random() * 16)}m ago` : `${2 + Math.floor(random() * 24)}s ago`
         });
-        addEdge(regionNode.id, siteNode.id, "site-route");
-        addEdge(subsectorNode.id, siteNode.id, "operating-link");
-        regionNode.endpointCount += assets;
+        addEdge(subsectorNode.id, siteNode.id, "site-route");
         sectorNode.endpointCount += assets;
-        subsectorNode.siteCount += 1;
         subsectorNode.endpointCount += assets;
         if (status !== "healthy") {
-          regionNode.attentionCount += 1;
           sectorNode.attentionCount += 1;
+          subsectorNode.attentionCount += 1;
         }
         const assetTypes = [...Array(pos).fill("pos"), ...Array(kiosk).fill("kiosk"), ...Array(kitchen).fill("kitchen")];
         assetTypes.forEach((assetType, assetIndex) => {
-          const assetAngle = assetIndex / assets * Math.PI * 2 + regionIndex * .33;
+          const assetAngle = assetIndex / assets * Math.PI * 2 + subIndex * .33;
           const assetRadius = 4.5 + assetIndex * 1.2;
           const endpointStatus = assetIndex === 0 && status !== "healthy" ? status : "healthy";
           const prefix = { pos: "POS", kiosk: "KSK", kitchen: "KMS" }[assetType];
@@ -1208,13 +1184,12 @@ function buildGodGraph() {
             sectorId: sectorNode.id,
             subsector: subsectorNode.label,
             subsectorId: subsectorNode.id,
-            region: region.name,
-            regionId: regionNode.id,
+            region: regionName,
             parentSite: siteNode.id,
             x: siteNode.x + Math.cos(assetAngle) * assetRadius,
             y: siteNode.y + Math.sin(assetAngle) * assetRadius,
             z: siteNode.z + (assetIndex - assets / 2) * 2.2,
-            radius: endpointStatus === "healthy" ? .76 : 1.5,
+            radius: endpointStatus === "healthy" ? .85 : 1.6,
             latency: endpointStatus === "offline" ? "No heartbeat" : endpointStatus === "degraded" ? siteNode.latency : `${24 + Math.floor(random() * 96)}ms`,
             lastSeen: endpointStatus === "offline" ? siteNode.lastSeen : `${2 + Math.floor(random() * 24)}s ago`
           });
@@ -1222,13 +1197,15 @@ function buildGodGraph() {
         });
         siteIndex += 1;
       }
+      subsectorNode.regions = [...usedRegions];
+      subsectorNode.regionCount = usedRegions.size;
     });
   });
 
   godViewState.nodes = nodes;
   godViewState.edges = edges;
   godViewState.nodeMap = new Map(nodes.map(node => [node.id, node]));
-  godViewState.flows = edges.filter((edge, index) => ["backbone", "business-link", "function-link", "regional"].includes(edge.type) || index % 23 === 0).map(edge => ({ edge, progress: random(), speed: .035 + random() * .075, size: edge.type === "backbone" ? 2.4 : 1.2 + random() * 1.2 }));
+  godViewState.flows = edges.filter((edge, index) => ["backbone", "business-link", "sector-link"].includes(edge.type) || edge.type === "site-route" && index % 6 === 0 || edge.type === "asset-link" && index % 31 === 0).map(edge => ({ edge, progress: random(), speed: .035 + random() * .075, size: edge.type === "backbone" ? 2.4 : edge.type === "business-link" || edge.type === "sector-link" ? 1.8 : 1.05 + random() * .8 }));
   godViewState.stars = Array.from({ length: 95 }, () => ({ x: random(), y: random(), size: .35 + random() * 1.1, alpha: .12 + random() * .35 }));
   $("#godEntityTotal").textContent = nodes.length.toLocaleString("en-GB");
 }
@@ -1245,7 +1222,8 @@ function projectGodPoint(point) {
   const rotated = rotateGodPoint(point);
   const camera = 720;
   const perspective = camera / Math.max(260, camera + rotated.z);
-  const scale = perspective * godViewState.zoom;
+  const viewportScale = Math.max(.9, Math.min(2.25, Math.min(godViewState.width / 780, godViewState.height / 560)));
+  const scale = perspective * godViewState.zoom * viewportScale;
   return { x: godViewState.width / 2 + rotated.x * scale, y: godViewState.height / 2 + rotated.y * scale, z: rotated.z, scale };
 }
 
@@ -1318,8 +1296,8 @@ function drawGodView(timestamp) {
     ctx.beginPath();
     ctx.moveTo(from.x, from.y);
     ctx.lineTo(to.x, to.y);
-    ctx.strokeStyle = highlighted ? "rgba(140,211,255,.72)" : edge.type === "backbone" ? "rgba(16,209,213,.25)" : edge.type === "business-link" ? "rgba(155,140,255,.24)" : edge.type === "function-link" ? "rgba(86,214,217,.22)" : edge.type === "governance-link" ? "rgba(86,214,217,.055)" : edge.type === "asset-link" ? "rgba(73,133,164,.04)" : edge.type === "operating-link" ? "rgba(125,153,187,.045)" : edge.type === "site-route" ? "rgba(73,133,164,.095)" : "rgba(77,150,181,.15)";
-    ctx.lineWidth = highlighted ? 1.55 : edge.type === "backbone" ? 1.15 : edge.type === "business-link" || edge.type === "function-link" ? .9 : edge.type === "asset-link" ? .35 : .6;
+    ctx.strokeStyle = highlighted ? "rgba(188,230,255,.86)" : edge.type === "backbone" ? "rgba(16,209,213,.28)" : edge.type === "business-link" ? "rgba(155,140,255,.34)" : edge.type === "sector-link" ? "rgba(116,190,222,.26)" : edge.type === "function-link" ? "rgba(86,214,217,.22)" : edge.type === "asset-link" ? "rgba(73,133,164,.045)" : edge.type === "site-route" ? "rgba(73,133,164,.13)" : "rgba(77,150,181,.12)";
+    ctx.lineWidth = highlighted ? 1.7 : edge.type === "backbone" ? 1.2 : edge.type === "business-link" ? 1.35 : edge.type === "sector-link" ? 1 : edge.type === "function-link" ? .9 : edge.type === "asset-link" ? .35 : .62;
     ctx.stroke();
   });
 
@@ -1358,6 +1336,14 @@ function drawGodView(timestamp) {
     ctx.beginPath();
     ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
     ctx.fill();
+    if (["core", "sector", "subsector"].includes(node.type)) {
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = `${color}99`;
+      ctx.lineWidth = node.type === "core" ? 2 : node.type === "sector" ? 1.5 : 1;
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, radius + (node.type === "core" ? 6 : node.type === "sector" ? 4 : 3), 0, Math.PI * 2);
+      ctx.stroke();
+    }
     if (node.type !== "site") {
       ctx.strokeStyle = "rgba(197,241,255,.55)";
       ctx.lineWidth = .8;
@@ -1373,11 +1359,11 @@ function drawGodView(timestamp) {
     }
     ctx.restore();
 
-    const prominent = node.type === "core" || node.type === "service" || node.type === "function" || node.type === "sector";
+    const prominent = node.type === "core" || node.type === "service" || node.type === "function" || node.type === "sector" || node.type === "subsector";
     const showLabel = godViewState.labels && (prominent || selected || hovered || godViewState.zoom > 1.35 && (node.type === "region" || node.type === "subsector") || godViewState.zoom > 1.8 && node.type === "site" && node.status !== "healthy");
     if (showLabel) {
-      const fontSize = node.type === "core" ? 11 : node.type === "sector" ? 10 : node.type === "site" ? 8 : 9;
-      ctx.font = `${node.type === "core" || node.type === "sector" ? 600 : 500} ${fontSize}px "DM Sans", sans-serif`;
+      const fontSize = node.type === "core" ? 13 : node.type === "sector" ? 12 : node.type === "subsector" || node.type === "function" ? 10 : node.type === "site" ? 8 : 9;
+      ctx.font = `${node.type === "core" || node.type === "sector" || node.type === "subsector" ? 600 : 500} ${fontSize}px "DM Sans", sans-serif`;
       const textWidth = ctx.measureText(node.label).width;
       const labelX = point.x + radius + 6;
       const labelY = point.y - radius - 3;
@@ -1404,13 +1390,14 @@ function renderGodInspector(node = null) {
     title.textContent = "Model overview";
     type.textContent = "No selection";
     $("#godInspector").innerHTML = `<div class="inspector-overview">
-      <div class="model-overview-visual"><span class="overview-core">D&amp;T</span></div>
-      <p class="inspector-intro">Explore Compass UK&amp;I from cross-enterprise functions into business sectors, sub-sectors, regions, sites and their connected assets. Live particles show service, telemetry and transaction movement.</p>
+      <div class="model-overview-visual"><span class="overview-core">UK&amp;I</span></div>
+      <p class="inspector-intro">Explore the operating hierarchy from Compass UK&amp;I to sectors, sub-sectors, sites and connected devices. Sites retain their regional classification, while central functions connect directly to the enterprise.</p>
       <div class="model-layer-list">
         <div class="model-layer"><i></i><div><strong>Central functions</strong><span>Foodbuy, People, Legal and enterprise teams</span></div><b>7</b></div>
-        <div class="model-layer"><i></i><div><strong>Business sectors</strong><span>Operating areas and specialist brands</span></div><b>7</b></div>
-        <div class="model-layer"><i></i><div><strong>Sub-sectors + regions</strong><span>26 portfolios · 40 regional clusters</span></div><b>66</b></div>
-        <div class="model-layer"><i></i><div><strong>Sites + endpoints</strong><span>428 locations · 1,842 connected assets</span></div><b>2,270</b></div>
+        <div class="model-layer"><i></i><div><strong>Business sectors</strong><span>Direct children of Compass UK&amp;I</span></div><b>7</b></div>
+        <div class="model-layer"><i></i><div><strong>Sub-sectors</strong><span>26 operating portfolios beneath their sectors</span></div><b>26</b></div>
+        <div class="model-layer"><i></i><div><strong>Sites</strong><span>428 locations grouped by regional metadata</span></div><b>428</b></div>
+        <div class="model-layer"><i></i><div><strong>Connected devices</strong><span>POS, kiosk and kitchen endpoints beneath each site</span></div><b>1,842</b></div>
       </div>
       <div class="entity-section"><h4>Enter a business sector</h4><div class="god-directory">${sectors.map(item => `<button type="button" data-god-focus-id="${item.id}"><i style="--node-color:${item.color}"></i>${escapeHtml(item.label)}<span>${item.siteCount} sites</span></button>`).join("")}</div></div>
       <div class="entity-section"><h4>Central functions</h4><div class="god-directory compact">${functions.map(item => `<button type="button" data-god-focus-id="${item.id}"><i style="--node-color:${item.color}"></i>${escapeHtml(item.label)}</button>`).join("")}</div></div>
@@ -1421,7 +1408,7 @@ function renderGodInspector(node = null) {
   }
 
   title.textContent = node.label;
-  const typeLabels = { site: "Compass location", endpoint: "Connected endpoint", region: "Sector region", subsector: "Sub-sector", sector: "Business sector", function: "Central function", core: "Enterprise core", platform: "Supporting platform", service: "Core platform" };
+  const typeLabels = { site: "Compass location", endpoint: "Connected device", subsector: "Sub-sector", sector: "Business sector", function: "Central function", core: "Enterprise core", platform: "Supporting platform", service: "Core platform" };
   type.textContent = typeLabels[node.type] || "Model entity";
   const connected = godViewState.edges.filter(edge => edge.source === node.id || edge.target === node.id);
   const dependencyMap = new Map();
@@ -1429,21 +1416,19 @@ function renderGodInspector(node = null) {
     const relationship = godViewState.nodeMap.get(edge.source === node.id ? edge.target : edge.source);
     if (relationship) dependencyMap.set(relationship.id, relationship);
   });
-  const relationshipLimit = node.type === "sector" || node.type === "function" ? 24 : node.type === "region" || node.type === "subsector" ? 20 : 12;
+  const relationshipLimit = node.type === "sector" || node.type === "function" ? 32 : node.type === "subsector" ? 28 : 12;
   const dependencies = [...dependencyMap.values()].slice(0, relationshipLimit);
   let facts;
-  if (node.type === "site") facts = [["Business sector", node.sector], ["Sub-sector", node.subsector], ["Region", node.region], ["Managed endpoints", node.assets], ["Last heartbeat", node.lastSeen], ["Observed latency", node.latency]];
+  if (node.type === "site") facts = [["Business sector", node.sector], ["Sub-sector", node.subsector], ["Region", node.region], ["Connected devices", node.assets], ["Last heartbeat", node.lastSeen], ["Observed latency", node.latency]];
   else if (node.type === "endpoint") facts = [["Asset type", node.assetType === "pos" ? "POS terminal" : node.assetType === "kiosk" ? "Self-service kiosk" : "Kitchen display"], ["Compass site", godViewState.nodeMap.get(node.parentSite)?.label || "—"], ["Business sector", node.sector], ["Region", node.region], ["Last heartbeat", node.lastSeen], ["Observed latency", node.latency]];
-  else if (node.type === "region") {
-    facts = [["Business sector", node.sector], ["Compass sites", node.siteCount], ["Managed endpoints", node.endpointCount], ["Needs attention", node.attentionCount], ["Regional cluster", node.region], ["Live paths", connected.length.toLocaleString("en-GB")]];
-  } else if (node.type === "sector") {
-    facts = [["Sub-sectors", node.subsectorCount], ["Regional clusters", dependencies.filter(item => item.type === "region").length], ["Compass sites", node.siteCount], ["Managed endpoints", node.endpointCount], ["Needs attention", node.attentionCount], ["Model status", "Live"]];
+  else if (node.type === "sector") {
+    facts = [["Parent", "Compass UK&I"], ["Sub-sectors", node.subsectorCount], ["Regional coverage", `${node.regionCount} regions`], ["Compass sites", node.siteCount], ["Managed devices", node.endpointCount], ["Needs attention", node.attentionCount]];
   } else if (node.type === "subsector") {
-    facts = [["Business sector", node.sector], ["Compass sites", node.siteCount], ["Managed endpoints", node.endpointCount], ["Operating layer", "Sub-sector"], ["Relationship paths", connected.length], ["Model status", "Live"]];
+    facts = [["Parent sector", node.sector], ["Compass sites", node.siteCount], ["Managed devices", node.endpointCount], ["Regional coverage", `${node.regionCount} regions`], ["Needs attention", node.attentionCount], ["Model status", "Live"]];
   } else if (node.type === "function") {
-    facts = [["Enterprise scope", node.scope], ["Business sectors", dependencies.filter(item => item.type === "sector").length], ["Relationship paths", connected.length], ["Model status", "Live"]];
+    facts = [["Enterprise parent", "Compass UK&I"], ["Enterprise scope", node.scope], ["Business coverage", "All sectors"], ["Relationship paths", connected.length], ["Model status", "Live"]];
   } else if (node.type === "service" || node.type === "platform") facts = [["Availability", node.availability], ["Response", node.latency], ["Connected paths", connected.length], ["Telemetry", node.flowRate]];
-  else facts = [["Central functions", 7], ["Business sectors", 7], ["Compass sites", 428], ["Connected endpoints", "1,842"], ["Modelled entities", godViewState.nodes.length.toLocaleString("en-GB")], ["Active flows", "8,412"]];
+  else facts = [["Central functions", 7], ["Business sectors", 7], ["Sub-sectors", 26], ["Compass sites", 428], ["Connected devices", "1,842"], ["Modelled entities", godViewState.nodes.length.toLocaleString("en-GB")]];
   const statusClass = node.status === "core" ? "core" : node.status;
   const statusLabel = node.status === "core" ? "CONNECTED" : node.status.toUpperCase();
   const pathParts = ["Compass UK&I"];
@@ -1490,7 +1475,7 @@ function focusGodNode(nodeId, orient = true) {
     const zAfterYaw = node.x * Math.sin(yaw) + node.z * Math.cos(yaw);
     godViewState.yaw = yaw;
     godViewState.pitch = Math.atan2(node.y, zAfterYaw || .001);
-    const zoomByType = { function: 1.3, sector: 1.3, subsector: 1.55, region: 1.55, site: 1.9, endpoint: 2.15 };
+    const zoomByType = { core: 1.15, function: 1.3, sector: 1.28, subsector: 1.48, site: 1.9, endpoint: 2.15 };
     godViewState.zoom = zoomByType[node.type] || 1.35;
     $("#godZoomReadout").textContent = `${Math.round(godViewState.zoom * 100)}%`;
     setGodAutoRotate(false);
@@ -1504,7 +1489,7 @@ function findGodNodeAt(x, y) {
   let nearest = Infinity;
   godViewState.screenNodes.forEach(({ node, point }) => {
     const distance = Math.hypot(point.x - x, point.y - y);
-    const hitRadius = node.type === "endpoint" ? 6 : node.type === "site" ? 9 : 14;
+    const hitRadius = node.type === "core" ? 28 : node.type === "sector" ? 21 : node.type === "subsector" ? 15 : node.type === "endpoint" ? 6 : node.type === "site" ? 9 : 13;
     if (distance < hitRadius && distance < nearest) { match = node; nearest = distance; }
   });
   return match;

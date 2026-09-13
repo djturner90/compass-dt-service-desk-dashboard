@@ -746,6 +746,7 @@ tbody tr.new-row { animation: rowFlash 1.8s ease; }
 .god-hierarchy-band span:first-child { color: #d3e8f2; font-weight: 700; }
 .god-hierarchy-band span:nth-of-type(2) { color: #73d7db; }
 .god-hierarchy-band i { color: #456b80; font-style: normal; }
+.god-hierarchy-band em { margin-left: auto; color: #65879a; font-size: 7.5px; font-style: normal; }
 .universe-canvas-wrap { height: 620px; margin-top: 8px; position: relative; overflow: hidden; border: 1px solid rgba(93,180,255,.12); border-radius: 10px; background: radial-gradient(circle at 50% 45%, rgba(13,76,99,.18), transparent 34%), linear-gradient(160deg, rgba(2,14,23,.95), rgba(5,24,37,.96)); }
 .universe-canvas-wrap::after { content: "3D MODEL · LIVE"; position: absolute; top: 12px; left: 14px; pointer-events: none; color: rgba(114,156,181,.58); font-family: "Space Grotesk", sans-serif; font-size: 8px; font-weight: 700; letter-spacing: .16em; }
 #godCanvas { width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
@@ -765,8 +766,9 @@ tbody tr.new-row { animation: rowFlash 1.8s ease; }
 .universe-legend { min-height: 38px; display: flex; align-items: center; gap: 14px; color: var(--muted); font-size: 8.5px; }
 .universe-legend > div { display: inline-flex; align-items: center; gap: 6px; }
 .god-key { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
-.god-key.core { background: var(--blue-bright); box-shadow: 0 0 6px rgba(93,180,255,.6); }
-.god-key.sector { background: #9b8cff; box-shadow: 0 0 6px rgba(155,140,255,.45); }
+.god-key.core { width: 12px; height: 12px; background: var(--blue-bright); box-shadow: 0 0 6px rgba(93,180,255,.6); }
+.god-key.sector { width: 10px; height: 10px; background: #9b8cff; box-shadow: 0 0 6px rgba(155,140,255,.45); }
+.god-key.subsector { background: #8bb7d4; box-shadow: 0 0 5px rgba(139,183,212,.42); }
 .god-key.healthy { background: var(--green); }
 .god-key.degraded { background: var(--amber); }
 .god-key.offline { background: var(--red); }
@@ -790,6 +792,7 @@ tbody tr.new-row { animation: rowFlash 1.8s ease; }
 .model-layer:nth-child(2) i { background: var(--cyan); }
 .model-layer:nth-child(3) i { background: var(--teal); }
 .model-layer:nth-child(4) i { background: var(--green); }
+.model-layer:nth-child(5) i { width: 5px; height: 5px; background: var(--green); }
 .model-layer strong, .model-layer span { display: block; }
 .model-layer strong { font-size: 9.5px; }
 .model-layer span { margin-top: 2px; color: var(--muted); font-size: 8px; }
