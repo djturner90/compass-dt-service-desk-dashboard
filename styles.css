@@ -601,11 +601,7 @@ tbody tr.new-row { animation: rowFlash 1.8s ease; }
 .network-stage::before { content: "LIVE TELEMETRY FABRIC"; position: absolute; top: 12px; left: 14px; color: #54758c; font-family: "Space Grotesk", sans-serif; font-size: 8px; font-weight: 700; letter-spacing: .18em; }
 .network-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .highway-base { fill: none; stroke: rgba(75,125,156,.17); stroke-width: 13; stroke-linecap: round; }
-.highway-flow { fill: none; stroke: url(#flowBlue); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 7 16; filter: url(#flowGlow); animation: highwayFlow 1.25s linear infinite; }
-.main-flow { stroke-width: 3; }
-.flow-two { animation-duration: 1.05s; }
-.flow-three { animation-duration: 1.45s; }
-@keyframes highwayFlow { to { stroke-dashoffset: -46; } }
+.highway-flow { fill: none; stroke: none; }
 .data-packet { fill: #c8ffff; stroke: rgba(255,255,255,.9); stroke-width: 1; filter: url(#flowGlow); }
 .data-packet.secondary { fill: var(--cyan); stroke: rgba(190,255,255,.72); opacity: .82; }
 
