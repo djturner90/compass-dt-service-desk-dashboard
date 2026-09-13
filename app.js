@@ -208,6 +208,32 @@ const deviceState = {
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
+const themePreferenceKey = "compass-dashboard-theme";
+
+function applyTheme(theme, persist = true) {
+  const activeTheme = theme === "light" ? "light" : "dark";
+  document.documentElement.dataset.theme = activeTheme;
+  const themeColour = document.querySelector('meta[name="theme-color"]');
+  if (themeColour) themeColour.content = activeTheme === "light" ? "#edf4f8" : "#071723";
+  $$('[data-theme-option]').forEach(button => {
+    const selected = button.dataset.themeOption === activeTheme;
+    button.classList.toggle("is-active", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
+  if (persist) {
+    try { localStorage.setItem(themePreferenceKey, activeTheme); } catch (error) { /* Theme still applies for this page. */ }
+  }
+}
+
+function initThemeSwitcher() {
+  let savedTheme = document.documentElement.dataset.theme;
+  try { savedTheme = localStorage.getItem(themePreferenceKey) || savedTheme; } catch (error) { /* Use the theme already applied in the document head. */ }
+  applyTheme(savedTheme, false);
+  $$('[data-theme-option]').forEach(button => {
+    button.addEventListener("click", () => applyTheme(button.dataset.themeOption));
+  });
+}
+
 function escapeHtml(value) {
   return String(value).replace(/[&<>'"]/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char]);
 }
@@ -1740,6 +1766,7 @@ function bindEvents() {
 }
 
 function init() {
+  initThemeSwitcher();
   hydrateSiteDevices();
   renderSparkline("openSpark", [472, 458, 449, 437, 441, 428, 419, 415, 405, 392, 387, 381]);
   renderSparkline("resolvedSpark", [84, 89, 98, 111, 128, 145, 163, 177, 188, 196, 201, 203], true);

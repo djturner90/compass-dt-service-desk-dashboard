@@ -5,10 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#071723">
   <title>Compass D&amp;T Service Desk Dashboard</title>
+  <script>
+    try {
+      document.documentElement.dataset.theme = localStorage.getItem("compass-dashboard-theme") === "light" ? "light" : "dark";
+    } catch (error) {
+      document.documentElement.dataset.theme = "dark";
+    }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260913-3">
+  <link rel="stylesheet" href="styles.css?v=20260913-4">
 </head>
 <body class="login-locked">
   <div class="login-screen" id="loginScreen">
@@ -85,6 +92,16 @@
       <div class="date-time" aria-label="Current dashboard time">
         <strong id="clock">09:41:12</strong>
         <span id="dateLabel">Friday 12 September 2026</span>
+      </div>
+      <div class="theme-switcher" role="group" aria-label="Colour theme">
+        <button class="theme-option is-active" type="button" data-theme-option="dark" aria-pressed="true" title="Use dark theme">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.4A8.5 8.5 0 0 1 8.6 3.5 8.5 8.5 0 1 0 20.5 15.4Z"/></svg>
+          <span>Dark</span>
+        </button>
+        <button class="theme-option" type="button" data-theme-option="light" aria-pressed="false" title="Use light theme">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <span>Light</span>
+        </button>
       </div>
       <button class="icon-button" id="fullscreenBtn" type="button" aria-label="Enter wall display mode" title="Wall display mode">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
@@ -725,6 +742,6 @@
   </aside>
 
   <div class="toast-region" id="toastRegion" aria-live="polite"></div>
-  <script src="app.js?v=20260913-3"></script>
+  <script src="app.js?v=20260913-4"></script>
 </body>
 </html>
